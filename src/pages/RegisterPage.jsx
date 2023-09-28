@@ -11,7 +11,7 @@ function RegisterPage() {
     password2: "",
   });
   const navigate = useNavigate();
-  const { sendRequest, error, isAuthenticated } = useApp();
+  const { sendRequest, isAuthenticated } = useApp();
 
   useEffect(() => {
     isAuthenticated && navigate("/login");
@@ -80,13 +80,6 @@ function RegisterPage() {
   ];
   return (
     <div className="flex justify-center items-center w-full flex-col">
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-          <strong className="font-bold">Error!</strong>
-          <span className="block sm:inline"> {error.message}</span>
-        </div>
-      )}
-
       <Form
         title="Registrate"
         style="flex flex-col gap-4"

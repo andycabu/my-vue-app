@@ -1,11 +1,13 @@
 import axios from "axios";
 import { createContext, useContext, useState } from "react";
+import PropTypes from "prop-types";
 
 export const AppContext = createContext();
+
 export const useApp = () => {
   const context = useContext(AppContext);
   if (!context) {
-    throw new Error("useAuth debe estar dentro del proveedor AuthContext");
+    throw new Error("useApp debe estar dentro del proveedor AuthContext");
   }
   return context;
 };
@@ -26,6 +28,10 @@ export const AppProvider = ({ children }) => {
     } catch (err) {
       setError(err.response.data);
     }
+  };
+
+  AppProvider.propTypes = {
+    children: PropTypes.node.isRequired,
   };
 
   return (

@@ -1,9 +1,9 @@
 import Form from "../components/Form";
 import { useState } from "react";
-import { useHttpRequest } from "../hooks/useHttpRequest";
+import { useApp } from "../context/AppContext";
 
 function LoginPage() {
-  const { sendRequest, error } = useHttpRequest();
+  const { response, sendRequest } = useApp();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -23,7 +23,9 @@ function LoginPage() {
   };
 
   const loginUser = async (user) => {
-    await sendRequest("POST", "http://localhost:4000/api/login", user, "/");
+    await sendRequest("POST", "http://localhost:4000/api/login", user);
+
+    response && console.log(response);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,12 +51,6 @@ function LoginPage() {
   ];
   return (
     <div>
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-          <strong className="font-bold">Error!</strong>
-          <span className="block sm:inline"> {error.message}</span>
-        </div>
-      )}
       <Form
         title="Inicia sesion"
         contentForm={contentForm}

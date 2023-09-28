@@ -1,13 +1,16 @@
 import PropTypes from "prop-types";
 import Button from "./Button";
+import React from "react";
+import Error from "./Error";
 
 function Form({ onSubmit, contentForm, style, title }) {
   return (
     <section className="max-w-4xl p-6 mx-auto bg-[var(--card-background-color)] rounded-md shadow-md  mt-20">
+      <Error />
       <h1>{title}</h1>
       <form className={style} onSubmit={onSubmit}>
-        {contentForm.map((item) => (
-          <>
+        {contentForm.map((item, i) => (
+          <React.Fragment key={i}>
             <div>
               <label className=" text-[var(--text-color)]" htmlFor={item.name}>
                 {item.labelText}
@@ -92,7 +95,7 @@ function Form({ onSubmit, contentForm, style, title }) {
                 </div>
               </div>
             ) : null}
-          </>
+          </React.Fragment>
         ))}
 
         <div className="flex justify-end mt-6 items-end">
@@ -110,8 +113,8 @@ function Form({ onSubmit, contentForm, style, title }) {
 Form.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   contentForm: PropTypes.array.isRequired,
-  style: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  style: PropTypes.string,
+  title: PropTypes.string,
 };
 
 export default Form;
