@@ -5,7 +5,7 @@ import Error from "./Error";
 
 function Form({ onSubmit, contentForm, style, title }) {
   return (
-    <section className="max-w-4xl p-6 mx-auto bg-[var(--card-background-color)] rounded-md shadow-md  mt-20">
+    <>
       <Error />
       <h1>{title}</h1>
       <form className={style} onSubmit={onSubmit}>
@@ -106,7 +106,7 @@ function Form({ onSubmit, contentForm, style, title }) {
           />
         </div>
       </form>
-    </section>
+    </>
   );
 }
 

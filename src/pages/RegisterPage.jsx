@@ -1,7 +1,7 @@
 import Form from "../components/Form";
 import { useEffect, useState } from "react";
 import { useApp } from "../context/AppContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function RegisterPage() {
   const [newUser, setNewUser] = useState({
@@ -11,23 +11,14 @@ function RegisterPage() {
     password2: "",
   });
   const navigate = useNavigate();
-  const { sendRequest, isAuthenticated } = useApp();
+  const { isAuthenticated, signUp } = useApp();
 
   useEffect(() => {
     isAuthenticated && navigate("/login");
   }, [isAuthenticated]);
 
   const createUser = async (user) => {
-    try {
-      await sendRequest(
-        "POST",
-        "http://localhost:4000/api/register",
-        user,
-        "/login"
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    signUp(user);
   };
 
   const handleSubmit = (e) => {
@@ -79,13 +70,16 @@ function RegisterPage() {
     },
   ];
   return (
-    <div className="flex justify-center items-center w-full flex-col">
+    <div className="max-w-4xl p-6 mx-auto bg-[var(--card-background-color)] rounded-md shadow-md  mt-20">
       <Form
         title="Registrate"
         style="flex flex-col gap-4"
         contentForm={contentForm}
         onSubmit={handleSubmit}
       />
+      <div className="flex text-xs justify-end items-center gap-4 pt-8 text-blue-500 hover:text-blue-600">
+        <Link to="/login">Inicia sesion</Link>
+      </div>
     </div>
   );
 }

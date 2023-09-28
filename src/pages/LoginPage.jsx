@@ -1,9 +1,10 @@
 import Form from "../components/Form";
 import { useState } from "react";
 import { useApp } from "../context/AppContext";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
-  const { response, sendRequest } = useApp();
+  const { signIn } = useApp();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -23,9 +24,7 @@ function LoginPage() {
   };
 
   const loginUser = async (user) => {
-    await sendRequest("POST", "http://localhost:4000/api/login", user);
-
-    response && console.log(response);
+    signIn(user);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,12 +49,15 @@ function LoginPage() {
     },
   ];
   return (
-    <div>
+    <div className="max-w-4xl p-6 mx-auto bg-[var(--card-background-color)] rounded-md shadow-md  mt-20">
       <Form
         title="Inicia sesion"
         contentForm={contentForm}
         onSubmit={handleSubmit}
       />
+      <div className="flex text-xs justify-end items-center gap-4 pt-8 text-blue-500 hover:text-blue-600">
+        <Link to="/register">No tienes cuenta?</Link>
+      </div>
     </div>
   );
 }

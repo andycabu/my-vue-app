@@ -504,17 +504,7 @@ body {
   background-color: var(--background-color);
   overflow-x: hidden;
 }
-body:before {
-  content: "";
-  position: absolute;
-  inset: 0 -60% 65% -60%;
-  background-image: radial-gradient(
-    ellipse at top,
-    #10b981 0%,
-    var(--background-color) 50%
-  );
-  opacity: var(--blur-opacity);
-}
+
 body .instagram {
   position: fixed;
   display: block;
