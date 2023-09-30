@@ -1,3 +1,4 @@
-import axios from "axios";
+import axios from "./axios";
 
-export const tasksRequest = () => axios.get("http://localhost:4000/api/tasks");
+export const tasksRequest = () => axios.get("/tasks");
+export const addTaskRequest = (task) => axios.post("/tasks/add", task);

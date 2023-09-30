@@ -1,10 +1,9 @@
-import axios from "axios";
 import { createContext, useContext, useState, useEffect } from "react";
-import { registerRequest, loginRequest } from "../api/auth";
+import { registerRequest, loginRequest, verifyTokenRequest } from "../api/auth";
 
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
-import { tasksRequest } from "../api/task";
+import { tasksRequest, addTaskRequest } from "../api/task";
 
 export const AppContext = createContext();
 
@@ -21,6 +20,7 @@ export const AppProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const signUp = async (user) => {
     try {
@@ -39,7 +39,6 @@ export const AppProvider = ({ children }) => {
       const res = await loginRequest(user);
 
       if (res.status === 200) {
-        console.log(res.data);
         setUser(res.data);
         setIsAuthenticated(true);
       }
@@ -52,7 +51,14 @@ export const AppProvider = ({ children }) => {
       const res = await tasksRequest();
       setTasks(res.data);
     } catch (error) {
-      console.log(error);
+      setError(error.response.data);
+    }
+  };
+  const addTask = async (task) => {
+    try {
+      const res = await addTaskRequest(task);
+    } catch (error) {
+      setError(error.response.data);
     }
   };
 
@@ -66,11 +72,29 @@ export const AppProvider = ({ children }) => {
   }, [error]);
 
   useEffect(() => {
-    const cookies = Cookies.get();
-    console.log(cookies);
-    if (cookies.token) {
-      console.log(cookies.token);
+    async function checkLogin() {
+      const cookies = Cookies.get();
+
+      if (!cookies.token) {
+        setIsAuthenticated(false);
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+      try {
+        const res = await verifyTokenRequest(cookies.token);
+        if (res.data) {
+          setLoading(false);
+          setUser(res.data);
+          setIsAuthenticated(true);
+        }
+      } catch (error) {
+        setIsAuthenticated(false);
+        setUser(null);
+        setLoading(false);
+      }
     }
+    checkLogin();
   }, []);
 
   AppProvider.propTypes = {
@@ -79,7 +103,17 @@ export const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ user, signUp, signIn, error, isAuthenticated, tasks, getTasks }}
+      value={{
+        loading,
+        user,
+        signUp,
+        signIn,
+        error,
+        isAuthenticated,
+        tasks,
+        getTasks,
+        addTask,
+      }}
     >
       {children}
     </AppContext.Provider>

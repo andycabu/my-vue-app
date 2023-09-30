@@ -2,7 +2,7 @@ import Button from "../components/Button";
 import Form from "../components/Form";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useInputState from "../hooks/useInputState";
 import useSubmit from "../hooks/useSubmit";
 import Arrow from "../components/Arrow";
@@ -10,6 +10,7 @@ import { useApp } from "../context/AppContext";
 
 function TaskFormPage() {
   const { id } = useParams();
+  const router = useNavigate();
 
   const initialState = {
     title: "",
@@ -18,12 +19,13 @@ function TaskFormPage() {
   };
   const [newTask, handleChange, setNewTask] = useInputState(initialState);
 
-  const { sendRequest, response } = useApp();
+  const { addTask, tasks } = useApp();
 
   const handleSubmit = useSubmit(
     async () => {
       // Lógica para crear una tarea nueva
-      await sendRequest("POST", "http://localhost:4000/api/tasks/add", newTask);
+      await addTask(newTask);
+      if (tasks) router("/tasks");
     },
     async (taskId) => {
       // Lógica para actualizar una tarea existente
@@ -69,25 +71,25 @@ function TaskFormPage() {
     e.preventDefault();
     handleSubmit(id);
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      if (id && response === null) {
-        await sendRequest(
-          "GET",
-          `http://localhost:4000/api/tasks/find${id}`,
-          null
-        );
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (id && response === null) {
+  //       await sendRequest(
+  //         "GET",
+  //         `http://localhost:4000/api/tasks/find${id}`,
+  //         null
+  //       );
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  useEffect(() => {
-    if (response !== null) {
-      setNewTask(response);
-    }
-  }, [response]);
+  // useEffect(() => {
+  //   if (response !== null) {
+  //     setNewTask(response);
+  //   }
+  // }, [response]);
 
   const contentForm = [
     {
@@ -119,7 +121,7 @@ function TaskFormPage() {
     <div className=" flex justify-center items-center flex-col w-full  ">
       <div className="flex justify-between items-center gap-8 ">
         <Arrow
-          left={{ link: "/", text: "Atras" }}
+          left={{ link: "/tasks", text: "Atras" }}
           right={{ link: "/", text: "Inicio" }}
         />
         {id ? (
@@ -131,12 +133,14 @@ function TaskFormPage() {
           />
         ) : null}
       </div>
-      <Form
-        title={!id ? "Crea tu tarea" : "Modifica tu tarea"}
-        style="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 text-[var(--text-color)]"
-        onSubmit={handleFormSubmit}
-        contentForm={contentForm}
-      />
+      <div className="max-w-4xl p-6 mx-auto bg-[var(--card-background-color)] rounded-md shadow-md  mt-20">
+        <Form
+          title={!id ? "Crea tu tarea" : "Modifica tu tarea"}
+          style="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 text-[var(--text-color)]"
+          onSubmit={handleFormSubmit}
+          contentForm={contentForm}
+        />
+      </div>
     </div>
   );
 }

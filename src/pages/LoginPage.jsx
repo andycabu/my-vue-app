@@ -1,7 +1,7 @@
 import Form from "../components/Form";
 import { useState } from "react";
 import { useApp } from "../context/AppContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const { signIn } = useApp();
@@ -9,7 +9,7 @@ function LoginPage() {
     email: "",
     password: "",
   });
-
+  const router = useNavigate();
   const handleChange = (e) => {
     // Obtén el nombre y el valor del elemento que cambió
     const name = e.target.name;
@@ -25,6 +25,7 @@ function LoginPage() {
 
   const loginUser = async (user) => {
     signIn(user);
+    if (user) router("/");
   };
   const handleSubmit = (e) => {
     e.preventDefault();

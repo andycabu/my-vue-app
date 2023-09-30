@@ -16,8 +16,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/tasks" element={<TasksPage />} />
           <Route element={<ProtectedRoute />}>
+            <Route path="/tasks" element={<TasksPage />} />
             <Route path="/task-add" element={<TaskFormPage />} />
             <Route path="/tasks/:id" element={<TaskFormPage />} />
             <Route path="/profile" element={<ProfilePage />} />
