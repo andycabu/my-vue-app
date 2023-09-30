@@ -4,7 +4,6 @@ import { useEffect } from "react";
 
 function TaskCard() {
   const { tasks, getTasks } = useApp();
-  console.log(tasks);
 
   const router = useNavigate();
   useEffect(() => {

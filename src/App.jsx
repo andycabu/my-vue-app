@@ -13,10 +13,10 @@ function App() {
     <AppProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<HomePage />} />
             <Route path="/tasks" element={<TasksPage />} />
             <Route path="/task-add" element={<TaskFormPage />} />
             <Route path="/tasks/:id" element={<TaskFormPage />} />

@@ -3,7 +3,7 @@ import { registerRequest, loginRequest, verifyTokenRequest } from "../api/auth";
 
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
-import { tasksRequest, addTaskRequest } from "../api/task";
+import { tasksRequest, addTaskRequest, deleteTaskRequest } from "../api/task";
 
 export const AppContext = createContext();
 
@@ -61,6 +61,13 @@ export const AppProvider = ({ children }) => {
       setError(error.response.data);
     }
   };
+  const deleteTask = async (id) => {
+    try {
+      const res = await deleteTaskRequest(id);
+    } catch (error) {
+      setError(error.response.data);
+    }
+  };
 
   useEffect(() => {
     if (error) {
@@ -113,6 +120,7 @@ export const AppProvider = ({ children }) => {
         tasks,
         getTasks,
         addTask,
+        deleteTask,
       }}
     >
       {children}

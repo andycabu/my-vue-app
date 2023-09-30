@@ -53,6 +53,7 @@ function LoginPage() {
     <div className="max-w-4xl p-6 mx-auto bg-[var(--card-background-color)] rounded-md shadow-md  mt-20">
       <Form
         title="Inicia sesion"
+        style="flex flex-col gap-4 text-[var(--text-color)]"
         contentForm={contentForm}
         onSubmit={handleSubmit}
       />

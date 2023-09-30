@@ -11,7 +11,6 @@ import { useApp } from "../context/AppContext";
 function TaskFormPage() {
   const { id } = useParams();
   const router = useNavigate();
-
   const initialState = {
     title: "",
     description: "",
@@ -19,7 +18,9 @@ function TaskFormPage() {
   };
   const [newTask, handleChange, setNewTask] = useInputState(initialState);
 
-  const { addTask, tasks } = useApp();
+  const { addTask, tasks, deleteTask, status } = useApp();
+
+  console.log("Mi estado", status);
 
   const handleSubmit = useSubmit(
     async () => {
@@ -59,11 +60,8 @@ function TaskFormPage() {
 
   const handleDelete = async () => {
     if (window.confirm("¿Estás seguro de borrar esta tarea?")) {
-      await sendRequest(
-        "DELETE",
-        `http://localhost:4000/api/tasks/delete${id}`,
-        null
-      );
+      await deleteTask(id);
+      router("/tasks");
     }
   };
 
@@ -145,7 +143,7 @@ function TaskFormPage() {
   );
 }
 TaskFormPage.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
 };
 
 export default TaskFormPage;
