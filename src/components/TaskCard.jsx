@@ -1,15 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useApp } from "../context/AppContext";
-import { useEffect } from "react";
 
-function TaskCard() {
-  const { tasks, getTasks } = useApp();
-
+function TaskCard({ tasks }) {
   const router = useNavigate();
-  useEffect(() => {
-    getTasks();
-  }, []);
-
   return (
     <>
       {tasks ? (

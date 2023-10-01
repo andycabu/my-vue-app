@@ -3,7 +3,13 @@ import { registerRequest, loginRequest, verifyTokenRequest } from "../api/auth";
 
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
-import { tasksRequest, addTaskRequest, deleteTaskRequest } from "../api/task";
+import {
+  tasksRequest,
+  addTaskRequest,
+  deleteTaskRequest,
+  searchTaskRequest,
+  updateTaskRequest,
+} from "../api/task";
 
 export const AppContext = createContext();
 
@@ -19,8 +25,9 @@ export const AppProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [found, setFound] = useState(false);
 
   const signUp = async (user) => {
     try {
@@ -64,6 +71,24 @@ export const AppProvider = ({ children }) => {
   const deleteTask = async (id) => {
     try {
       const res = await deleteTaskRequest(id);
+    } catch (error) {
+      setError(error.response.data);
+    }
+  };
+  const searchTask = async (id) => {
+    try {
+      const res = await searchTaskRequest(id);
+      setFound(res.data);
+    } catch (error) {
+      setError(error.response.data);
+    }
+  };
+  const updateTask = async (id) => {
+    console.log(id);
+    try {
+      const res = await updateTaskRequest(id);
+      console.log(id);
+      setTasks(res.data);
     } catch (error) {
       setError(error.response.data);
     }
@@ -121,6 +146,9 @@ export const AppProvider = ({ children }) => {
         getTasks,
         addTask,
         deleteTask,
+        searchTask,
+        found,
+        updateTask,
       }}
     >
       {children}

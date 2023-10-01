@@ -18,9 +18,8 @@ function TaskFormPage() {
   };
   const [newTask, handleChange, setNewTask] = useInputState(initialState);
 
-  const { addTask, tasks, deleteTask, status } = useApp();
-
-  console.log("Mi estado", status);
+  const { addTask, tasks, deleteTask, searchTask, found, updateTask } =
+    useApp();
 
   const handleSubmit = useSubmit(
     async () => {
@@ -30,7 +29,7 @@ function TaskFormPage() {
     },
     async (taskId) => {
       // Lógica para actualizar una tarea existente
-      await updateTask(taskId);
+      await onUpdateTask(taskId);
     }
   );
 
@@ -50,12 +49,8 @@ function TaskFormPage() {
     reader.readAsDataURL(file);
   };
 
-  const updateTask = async () => {
-    await sendRequest(
-      "PUT",
-      `http://localhost:4000/api/tasks/update${id}`,
-      newTask
-    );
+  const onUpdateTask = async (id) => {
+    await updateTask(id);
   };
 
   const handleDelete = async () => {
@@ -69,39 +64,30 @@ function TaskFormPage() {
     e.preventDefault();
     handleSubmit(id);
   };
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (id && response === null) {
-  //       await sendRequest(
-  //         "GET",
-  //         `http://localhost:4000/api/tasks/find${id}`,
-  //         null
-  //       );
-  //     }
-  //   };
 
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (id) {
+        await searchTask(id);
+      }
+    };
 
-  // useEffect(() => {
-  //   if (response !== null) {
-  //     setNewTask(response);
-  //   }
-  // }, [response]);
+    fetchData();
+  }, []);
 
   const contentForm = [
     {
       id: 1,
       labelText: "Titulo de la tarea",
       name: "title",
-      placeholder: id ? newTask.title : "Escribe el titulo",
+      placeholder: id ? found.title : "Escribe el titulo",
       typeInput: "text",
       onChange: handleChange,
       textButton: !id ? "Crear" : "Modificar",
       textArea: {
         labelText: "Descripcion de la tarea",
         name: "description",
-        placeholder: id ? newTask.description : "Escribe la descripcion",
+        placeholder: id ? found.description : "Escribe la descripcion",
         typeInput: "text",
         onChange: handleChange,
         className:
@@ -110,7 +96,7 @@ function TaskFormPage() {
       img: {
         labelText: id ? "Cambiar imagen" : "Subir imagen",
         onChange: onInputImageChange,
-        src: id ? newTask.img : null,
+        src: id ? found.img : null,
       },
     },
   ];
