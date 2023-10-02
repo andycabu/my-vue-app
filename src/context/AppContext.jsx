@@ -1,5 +1,10 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { registerRequest, loginRequest, verifyTokenRequest } from "../api/auth";
+import {
+  registerRequest,
+  loginRequest,
+  verifyTokenRequest,
+  logoutRequest,
+} from "../api/auth";
 
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
@@ -39,6 +44,18 @@ export const AppProvider = ({ children }) => {
       if (res.status === 200) {
         setUser(res.data);
         setIsAuthenticated(true);
+      }
+    } catch (error) {
+      setError(error.response.data);
+    }
+  };
+  const logout = async () => {
+    const res = await logoutRequest();
+    try {
+      if (res.status === 200) {
+        setUser(null);
+        setIsAuthenticated(false);
+        Cookies.remove("token");
       }
     } catch (error) {
       setError(error.response.data);
@@ -93,6 +110,7 @@ export const AppProvider = ({ children }) => {
         signIn,
         error,
         isAuthenticated,
+        logout,
       }}
     >
       {children}

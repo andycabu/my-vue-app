@@ -4,6 +4,7 @@ import IconSeparation from "./IconSeparation";
 import ItemsNavbar from "./ItemsNavbar";
 import { useEffect, useState } from "react";
 import { useScreenWidth } from "../hooks/useScreenWidth";
+import { useApp } from "../context/AppContext";
 
 const navbar = [
   {
@@ -31,6 +32,8 @@ const navbar = [
 function Navbar() {
   const router = useNavigate();
   const [open, setOpen] = useState(false);
+
+  const { isAuthenticated, logout } = useApp();
 
   const screenWidth = useScreenWidth();
 
@@ -95,18 +98,29 @@ function Navbar() {
           <ItemsNavbar navbar={navbar} />
         </ul>
         <div className="hidden lg:flex gap-4 ">
-          <Button
-            text="Iniciar sesion"
-            bg="lg:inline-block py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-[var(--text-color)] font-bold rounded-xl transition duration-200 "
-            type="button"
-            onClick={() => router("/login")}
-          />
-          <Button
-            text="Registrarse"
-            bg="lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200 "
-            type="button"
-            onClick={() => router("/register")}
-          />
+          {isAuthenticated ? (
+            <Button
+              text="Cerrar sesion"
+              bg="lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200 "
+              type="button"
+              onClick={() => logout()}
+            />
+          ) : (
+            <>
+              <Button
+                text="Iniciar sesion"
+                bg="lg:inline-block py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-[var(--text-color)] font-bold rounded-xl transition duration-200 "
+                type="button"
+                onClick={() => router("/login")}
+              />
+              <Button
+                text="Registrarse"
+                bg="lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200 "
+                type="button"
+                onClick={() => router("/register")}
+              />
+            </>
+          )}
         </div>
       </nav>
       <div
