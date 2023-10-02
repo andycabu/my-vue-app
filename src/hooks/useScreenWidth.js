@@ -10,6 +10,7 @@ export function useScreenWidth() {
         setScreenWidth(newWidth);
       }
     };
+    handleResize();
 
     window.addEventListener("resize", handleResize);
 

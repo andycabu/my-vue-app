@@ -10,7 +10,7 @@ function ItemsNavbar({ navbar, classLink, classLi }) {
       {navbar.map((item) => (
         <>
           <li key={item.id} className={classLi && classLi}>
-            <Link className={classLink && classLink} href={item.href}>
+            <Link className={classLink && classLink} to={item.href}>
               {item.name}
             </Link>
           </li>

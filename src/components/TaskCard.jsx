@@ -4,7 +4,9 @@ function TaskCard({ tasks }) {
   const router = useNavigate();
   return (
     <>
-      {tasks ? (
+      {tasks.length <= 0 ? (
+        <h2 className="text-center">No hay tareas</h2>
+      ) : (
         <div className="ag-courses_box">
           {tasks.map((task) => (
             <div
@@ -34,8 +36,6 @@ function TaskCard({ tasks }) {
             </div>
           ))}
         </div>
-      ) : (
-        <h2 className="text-center">No hay tareas</h2>
       )}
     </>
   );

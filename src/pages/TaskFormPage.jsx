@@ -6,7 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import useInputState from "../hooks/useInputState";
 import useSubmit from "../hooks/useSubmit";
 import Arrow from "../components/Arrow";
-import { useApp } from "../context/AppContext";
+import { useTask } from "../context/TaskContext";
 
 function TaskFormPage() {
   const { id } = useParams();
@@ -19,7 +19,7 @@ function TaskFormPage() {
   const [newTask, handleChange, setNewTask] = useInputState(initialState);
 
   const { addTask, tasks, deleteTask, searchTask, found, updateTask } =
-    useApp();
+    useTask();
 
   const handleSubmit = useSubmit(
     async () => {
@@ -27,9 +27,9 @@ function TaskFormPage() {
       await addTask(newTask);
       if (tasks) router("/tasks");
     },
-    async (taskId) => {
+    async () => {
       // Lógica para actualizar una tarea existente
-      await onUpdateTask(taskId);
+      await onUpdateTask();
     }
   );
 
@@ -49,8 +49,9 @@ function TaskFormPage() {
     reader.readAsDataURL(file);
   };
 
-  const onUpdateTask = async (id) => {
-    await updateTask(id);
+  const onUpdateTask = async () => {
+    await updateTask(id, newTask);
+    router("/tasks");
   };
 
   const handleDelete = async () => {

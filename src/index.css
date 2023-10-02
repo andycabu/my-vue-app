@@ -497,10 +497,9 @@ html {
 
 body {
   min-height: 100vh;
-  display: flex;
+
   font-family: "Montserrat", sans-serif;
-  justify-content: center;
-  align-items: center;
+
   background-color: var(--background-color);
   overflow-x: hidden;
 }

@@ -1,15 +1,15 @@
 import Arrow from "../components/Arrow";
 import TaskCard from "../components/TaskCard";
-import { useApp } from "../context/AppContext";
 import { useEffect } from "react";
+import { useTask } from "../context/TaskContext";
 
 function TasksPage() {
-  const { tasks, getTasks } = useApp();
+  const { tasks, getTasks } = useTask();
   useEffect(() => {
     getTasks();
   }, []);
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center gap-8">
       <Arrow
         title="Tareas"
         left={{ link: "/", text: "Inicio" }}

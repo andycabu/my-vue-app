@@ -17,14 +17,14 @@ const navbar = [
   {
     id: 2,
     name: "Tareas",
-    href: "/pages/tasks",
+    href: "/tasks",
 
     icon: <IconSeparation />,
   },
   {
     id: 3,
     name: "Productos",
-    href: "/pages/products",
+    href: "/products",
   },
 ];
 
@@ -50,7 +50,7 @@ function Navbar() {
   return (
     <>
       <nav className=" p-8 flex justify-between items-center bg-[var(--card-background-color)] box-shadow-1">
-        <Link href="/" className="text-3xl font-bold leading-none">
+        <Link to="/" className="text-3xl font-bold leading-none">
           <svg
             className="h-10"
             viewBox="0 0 251.941 251.941"
@@ -99,13 +99,13 @@ function Navbar() {
             text="Iniciar sesion"
             bg="lg:inline-block py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-[var(--text-color)] font-bold rounded-xl transition duration-200 "
             type="button"
-            onClick={() => router("/pages/login")}
+            onClick={() => router("/login")}
           />
           <Button
             text="Registrarse"
             bg="lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200 "
             type="button"
-            onClick={() => router("/pages/register")}
+            onClick={() => router("/register")}
           />
         </div>
       </nav>
