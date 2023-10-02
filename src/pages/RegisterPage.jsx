@@ -44,6 +44,7 @@ function RegisterPage() {
       name: "name",
       placeholder: "Andres Buitrago",
       typeInput: "text",
+      autoComplete: "name",
       textButton: "crear",
       onChange: handleChange,
     },
@@ -52,12 +53,14 @@ function RegisterPage() {
       name: "email",
       placeholder: "prueba@prueba.com",
       typeInput: "email",
+      autoComplete: "email",
       onChange: handleChange,
     },
     {
       labelText: "Escribe tu contraseña ",
       name: "password1",
       placeholder: "********",
+      autoComplete: "new-password",
       typeInput: "password",
       onChange: handleChange,
     },
@@ -66,6 +69,8 @@ function RegisterPage() {
       name: "password2",
       placeholder: "********",
       typeInput: "password",
+      autoComplete: "new-password",
+
       onChange: handleChange,
     },
   ];

@@ -42,6 +42,7 @@ function LoginPage() {
       placeholder: "prueba@prueba.com",
       typeInput: "email",
       onChange: handleChange,
+      autoComplete: "email",
       textButton: "Iniciar sesión",
     },
     {
@@ -50,6 +51,7 @@ function LoginPage() {
       placeholder: "********",
       typeInput: "password",
       onChange: handleChange,
+      autoComplete: "current-password",
     },
   ];
   return (

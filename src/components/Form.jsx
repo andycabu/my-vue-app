@@ -19,6 +19,7 @@ function Form({ onSubmit, contentForm, style, title }) {
                 name={item.name}
                 id={item.name}
                 placeholder={item.placeholder}
+                autoComplete={item.autoComplete}
                 type={item.typeInput}
                 onChange={item.onChange}
                 className="block w-full px-4 py-2 mt-2  bg-[var(--background-color)] border border-[var(--background-color)] rounded-md   focus:border-[var(--text-color)]  "

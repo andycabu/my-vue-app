@@ -94,9 +94,11 @@ function Navbar() {
             </svg>
           </button>
         </div>
-        <ul className="hidden text-[var(--text-color)] absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2  lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
-          <ItemsNavbar navbar={navbar} />
-        </ul>
+        {isAuthenticated && (
+          <ul className="hidden text-[var(--text-color)] absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2  lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
+            <ItemsNavbar navbar={navbar} />
+          </ul>
+        )}
         <div className="hidden lg:flex gap-4 ">
           {isAuthenticated ? (
             <Button
