@@ -103,8 +103,8 @@ function TaskFormPage() {
   ];
 
   return (
-    <div className=" flex justify-center items-center flex-col w-full  ">
-      <div className="flex justify-between items-center gap-8 ">
+    <div className="mt-24">
+      <div className="flex justify-between items-center gap-8 pb-4 ">
         <Arrow
           left={{ link: "/tasks", text: "Atras" }}
           right={{ link: "/", text: "Inicio" }}
@@ -118,7 +118,7 @@ function TaskFormPage() {
           />
         ) : null}
       </div>
-      <div className="max-w-4xl p-6 mx-auto bg-[var(--card-background-color)] rounded-md shadow-md  mt-20">
+      <div className="max-w-4xl p-6 mx-auto bg-[var(--card-background-color)] rounded-md shadow-md  ">
         <Form
           title={!id ? "Crea tu tarea" : "Modifica tu tarea"}
           style="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 text-[var(--text-color)]"

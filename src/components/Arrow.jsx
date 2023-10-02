@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Arrow({ left, right, title }) {
   return (
-    <div className=" container flex justify-between items-center gap-8 ">
+    <div className=" w-full flex justify-between items-center gap-8 ">
       <Link className="arrows" to={left.link}>
         <span className="arrow left"></span>
         {left.text}

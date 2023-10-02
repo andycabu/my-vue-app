@@ -18,18 +18,20 @@ function App() {
           <header className="fixed top-0 w-full z-20">
             <Navbar />
           </header>
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/" element={<HomePage />} />
+          <main className="h-full justify-center  px-16 flex flex-col gap-4 items-center w-full">
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/" element={<HomePage />} />
 
-              <Route path="/tasks" element={<TasksPage />} />
-              <Route path="/task-add" element={<TaskFormPage />} />
-              <Route path="/tasks/:id" element={<TaskFormPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-            </Route>
-          </Routes>
+                <Route path="/tasks" element={<TasksPage />} />
+                <Route path="/task-add" element={<TaskFormPage />} />
+                <Route path="/tasks/:id" element={<TaskFormPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+              </Route>
+            </Routes>
+          </main>
         </BrowserRouter>
       </TaskProvider>
     </AppProvider>

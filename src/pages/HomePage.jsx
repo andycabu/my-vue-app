@@ -2,8 +2,8 @@ import Card from "../components/Card";
 
 function HomePage() {
   return (
-    <section className="container px-16 flex flex-col gap-4 items-center">
-      <h1 className="font-bold text-4xl text-center">Home Page </h1>
+    <section>
+      <h1 className="font-bold text-4xl text-center pb-4">Home Page </h1>
       <Card />
       <a
         className="instagram"
