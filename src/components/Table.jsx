@@ -1,17 +1,9 @@
 import Button from "./Button";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { useProduct } from "../context/ProductContext";
 
-function Table({ contentTable, products, getProducts }) {
-  const deleteProduct = async (id) => {
-    const res = await axios.delete(
-      `http://localhost:4000/api/products/delete${id}`
-    );
-    if (res.status === 200) {
-      getProducts();
-    }
-  };
-
+function Table({ contentTable, products, handleDelete }) {
   const handleEditableChange = async (event) => {
     try {
       const newStockValue = parseInt(event.target.textContent);
@@ -70,7 +62,7 @@ function Table({ contentTable, products, getProducts }) {
             </td>
             <td className="p-3 ">
               <Button
-                onClick={() => deleteProduct(product._id)}
+                onClick={() => handleDelete(product._id)}
                 text="Borrar"
                 bg="lg:inline-block py-2 px-6 text-sm text-white font-bold rounded-xl transition duration-200 bg-red-500 hover:bg-red-600"
               />

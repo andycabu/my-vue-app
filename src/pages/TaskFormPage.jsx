@@ -10,7 +10,7 @@ import { useTask } from "../context/TaskContext";
 
 function TaskFormPage() {
   const { id } = useParams();
-  const router = useNavigate();
+  const navigate = useNavigate();
   const initialState = {
     title: "",
     description: "",
@@ -25,7 +25,7 @@ function TaskFormPage() {
     async () => {
       // Lógica para crear una tarea nueva
       await addTask(newTask);
-      if (tasks) router("/tasks");
+      if (tasks) navigate("/tasks");
     },
     async () => {
       // Lógica para actualizar una tarea existente
@@ -51,7 +51,7 @@ function TaskFormPage() {
 
   const onUpdateTask = async () => {
     await updateTask(id, newTask);
-    router("/tasks");
+    navigate("/tasks");
   };
 
   const handleDelete = async () => {
