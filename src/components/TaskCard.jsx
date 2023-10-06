@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 function TaskCard({ tasks }) {
-  const router = useNavigate();
+  const navigate = useNavigate();
   return (
     <>
       {tasks.length <= 0 ? (
@@ -11,7 +11,7 @@ function TaskCard({ tasks }) {
           {tasks.map((task) => (
             <div
               onClick={() => {
-                router("/tasks/" + task._id);
+                navigate("/task", { state: { task } });
               }}
               key={task._id}
               className="ag-courses_item"

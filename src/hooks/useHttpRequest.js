@@ -9,6 +9,7 @@ export function useHttpRequest() {
   const sendRequest = async (method, url, requestData) => {
     try {
       const res = await axios({ method, url, data: requestData });
+      console.log(res);
 
       if (res.status === 200) {
         setStatus(res.status);

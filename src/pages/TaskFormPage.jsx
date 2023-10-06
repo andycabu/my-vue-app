@@ -1,15 +1,14 @@
 import Button from "../components/Button";
 import Form from "../components/Form";
-import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import useInputState from "../hooks/useInputState";
-import useSubmit from "../hooks/useSubmit";
 import Arrow from "../components/Arrow";
 import { useTask } from "../context/TaskContext";
 
 function TaskFormPage() {
-  const { id } = useParams();
+  const { state } = useLocation();
+
   const navigate = useNavigate();
   const initialState = {
     title: "",
@@ -18,20 +17,7 @@ function TaskFormPage() {
   };
   const [newTask, handleChange, setNewTask] = useInputState(initialState);
 
-  const { addTask, tasks, deleteTask, searchTask, found, updateTask } =
-    useTask();
-
-  const handleSubmit = useSubmit(
-    async () => {
-      // Lógica para crear una tarea nueva
-      await addTask(newTask);
-      if (tasks) navigate("/tasks");
-    },
-    async () => {
-      // Lógica para actualizar una tarea existente
-      await onUpdateTask();
-    }
-  );
+  const { addTask, deleteTask, updateTask } = useTask();
 
   const onInputImageChange = async (event) => {
     const file = event.target.files[0];
@@ -49,55 +35,45 @@ function TaskFormPage() {
     reader.readAsDataURL(file);
   };
 
-  const onUpdateTask = async () => {
-    await updateTask(id, newTask);
-    navigate("/tasks");
-  };
-
   const handleDelete = async () => {
     if (window.confirm("¿Estás seguro de borrar esta tarea?")) {
-      await deleteTask(id);
-      router("/tasks");
+      await deleteTask(state.task._id);
+      navigate("/tasks");
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleSubmit(id);
+    if (state?.task?._id) {
+      await updateTask(state.task._id, newTask);
+      navigate("/tasks");
+    } else {
+      addTask(newTask);
+    }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (id) {
-        await searchTask(id);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const contentForm = [
     {
       id: 1,
       labelText: "Titulo de la tarea",
       name: "title",
-      placeholder: id ? found.title : "Escribe el titulo",
+      placeholder: state ? state.task.title : "Escribe el titulo",
       typeInput: "text",
       onChange: handleChange,
-      textButton: !id ? "Crear" : "Modificar",
+      textButton: !state ? "Crear" : "Modificar",
       textArea: {
         labelText: "Descripcion de la tarea",
         name: "description",
-        placeholder: id ? found.description : "Escribe la descripcion",
+        placeholder: state ? state.task.description : "Escribe la descripcion",
         typeInput: "text",
         onChange: handleChange,
         className:
           "block w-full px-4 py-2 mt-2 resize-none h-28 bg-[var(--background-color)] border border-[var(--background-color)] rounded-md   focus:border-[var(--text-color)]  ",
       },
       img: {
-        labelText: id ? "Cambiar imagen" : "Subir imagen",
+        labelText: state ? "Cambiar imagen" : "Subir imagen",
         onChange: onInputImageChange,
-        src: id ? found.img : null,
+        src: state ? state.task.img : null,
       },
     },
   ];
@@ -109,7 +85,7 @@ function TaskFormPage() {
           left={{ link: "/tasks", text: "Atras" }}
           right={{ link: "/", text: "Inicio" }}
         />
-        {id ? (
+        {state ? (
           <Button
             text=" Borrar"
             bg="lg:inline-block py-2 px-6 text-sm text-white font-bold rounded-xl transition duration-200 bg-red-500 hover:bg-red-600"
@@ -120,9 +96,9 @@ function TaskFormPage() {
       </div>
       <div className="max-w-4xl p-6 mx-auto bg-[var(--card-background-color)] rounded-md shadow-md  ">
         <Form
-          title={!id ? "Crea tu tarea" : "Modifica tu tarea"}
+          title={!state ? "Crea tu tarea" : "Modifica tu tarea"}
           style="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 text-[var(--text-color)]"
-          onSubmit={handleFormSubmit}
+          onSubmit={handleSubmit}
           contentForm={contentForm}
         />
       </div>
