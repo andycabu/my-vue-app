@@ -14,8 +14,8 @@ function Button({ text, bg, type, onClick }) {
 
 Button.propTypes = {
   text: PropTypes.string.isRequired,
-  bg: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  bg: PropTypes.string,
+  type: PropTypes.string,
   onClick: PropTypes.func,
 };
 

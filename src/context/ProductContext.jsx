@@ -8,6 +8,7 @@ import {
   searchProductRequest,
   updateProductRequest,
 } from "../api/product";
+import { useApp } from "./AppContext";
 
 export const ProductContext = createContext();
 
@@ -23,9 +24,8 @@ export const useProduct = () => {
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const [found, setFound] = useState(false);
-  const [error, setError] = useState();
-  const [status, setStatus] = useState();
+  const { setError } = useApp();
+  const [status, setStatus] = useState(null);
 
   const getProducts = async () => {
     try {
@@ -37,9 +37,11 @@ export const ProductProvider = ({ children }) => {
   };
   const addProduct = async (product) => {
     try {
+      setStatus(null);
       const res = await addProductRequest(product);
       setStatus(res.status);
     } catch (error) {
+      console.log(error.response.data);
       setError(error.response.data);
     }
   };
@@ -47,15 +49,18 @@ export const ProductProvider = ({ children }) => {
     try {
       const res = await deleteProductRequest(id);
       setStatus(res.status);
+      if (status === 200) setStatus(null);
     } catch (error) {
       setError(error.response.data);
     }
   };
-  const searchProduct = async (id) => {
+  const searchProduct = async (nombre) => {
     try {
-      const res = await searchProductRequest(id);
-      setFound(res.data);
+      const res = await searchProductRequest(nombre);
+      setProducts(res.data);
+      console.log(res);
     } catch (error) {
+      console(error);
       setError(error.response.data);
     }
   };
@@ -79,9 +84,7 @@ export const ProductProvider = ({ children }) => {
         addProduct,
         deleteProduct,
         searchProduct,
-        found,
         updateProduct,
-        error,
         status,
       }}
     >

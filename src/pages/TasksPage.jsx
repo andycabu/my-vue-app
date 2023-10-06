@@ -2,11 +2,16 @@ import Arrow from "../components/Arrow";
 import TaskCard from "../components/TaskCard";
 import { useEffect } from "react";
 import { useTask } from "../context/TaskContext";
+import { useHttpRequest } from "../hooks/useHttpRequest";
 
 function TasksPage() {
-  const { tasks, getTasks } = useTask();
+  const { sendRequest, response } = useHttpRequest();
+  const getTaks = async () => {
+    await sendRequest("GET", "/tasks");
+  };
+
   useEffect(() => {
-    getTasks();
+    getTaks();
   }, []);
   return (
     <div className="flex flex-col items-center justify-center gap-8">
@@ -15,7 +20,7 @@ function TasksPage() {
         left={{ link: "/", text: "Inicio" }}
         right={{ link: "/task-add", text: "Crear" }}
       />
-      <TaskCard tasks={tasks} />
+      <TaskCard tasks={response || []} />
     </div>
   );
 }

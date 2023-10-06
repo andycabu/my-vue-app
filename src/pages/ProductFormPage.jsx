@@ -4,9 +4,13 @@ import useSubmit from "../hooks/useSubmit";
 import useInputState from "../hooks/useInputState";
 import Form from "../components/Form";
 import Arrow from "../components/Arrow";
+import { useApp } from "../context/AppContext";
+import { useEffect } from "react";
 
 function ProductFormPage() {
-  const { addProduct, error, status } = useProduct();
+  const { addProduct, status } = useProduct();
+
+  const { error } = useApp();
   const initialState = {
     nombre: "",
     referencia: "",
@@ -20,15 +24,16 @@ function ProductFormPage() {
 
   const handleSubmit = useSubmit(
     async () => {
-      // Lógica para crear una tarea nueva
       await addProduct(newProduct);
-      navigate("/products");
-    },
-    async () => {
-      // Lógica para actualizar una tarea existente
-      await onUpdateProduct();
     }
+    // async () => {
+    //   await onUpdateProduct();
+    // }
   );
+
+  useEffect(() => {
+    if (status === 200) navigate("/products");
+  }, [status]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -69,12 +74,6 @@ function ProductFormPage() {
   ];
   return (
     <div>
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-          <strong className="font-bold">Error!</strong>
-          <span className="block sm:inline"> {error}</span>
-        </div>
-      )}
       <Arrow
         left={{ link: "/products", text: "Atras" }}
         right={{ link: "/", text: "Inicio" }}

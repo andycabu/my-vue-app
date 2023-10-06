@@ -1,43 +1,21 @@
-import axios, { AxiosError } from "axios";
-import { useEffect, useState } from "react";
 import Table from "../components/Table";
 import { useProduct } from "../context/ProductContext";
 import Arrow from "../components/Arrow";
+import { useHttpRequest } from "../hooks/useHttpRequest";
 
 function ProductsPage() {
-  const { products, getProducts, status, deleteProduct } = useProduct();
+  const { searchProduct } = useProduct();
 
-  const [newProduct, setNewProduct] = useState({
-    nombre: "",
-    referencia: "",
-    fechaCaducidad: "",
-    categoria: "",
-    stock: "",
-  });
+  const { response } = useHttpRequest();
 
   const findProduct = async (product) => {
-    try {
-      if (!product.trim()) {
-        findProduct();
-        return;
-      }
-      const res = await axios.get(
-        `http://localhost:4000/api/products/find?nombre=${product}`
-      );
-      const data = await res.data;
-      if (res.status === 200) {
-        setProducts(data);
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setErrorSearch(error.response.data.message);
-      }
+    if (!product.trim()) {
+      searchProduct();
+      return;
     }
+    searchProduct(product);
   };
-  const handleDelete = async (id) => {
-    await deleteProduct(id);
-  };
-  console.log(products);
+
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -45,15 +23,7 @@ function ProductsPage() {
     if (name === "search") {
       findProduct(value);
     }
-
-    setNewProduct((prevNewProduct) => ({
-      ...prevNewProduct,
-      [name]: value,
-    }));
   };
-  useEffect(() => {
-    getProducts();
-  }, [status === 200]);
 
   const table = [
     {
@@ -101,12 +71,7 @@ function ProductsPage() {
       </div>
 
       <div className="text-center bg-[var(--card-background-color)] p-6">
-        <Table
-          handleDelete={handleDelete}
-          contentTable={table}
-          products={products}
-          getProducts={getProducts}
-        />
+        <Table contentTable={table} products={response || []} />
       </div>
     </div>
   );

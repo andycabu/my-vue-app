@@ -2,7 +2,6 @@ import { createContext, useContext, useState } from "react";
 
 import PropTypes from "prop-types";
 import {
-  tasksRequest,
   addTaskRequest,
   deleteTaskRequest,
   searchTaskRequest,
@@ -20,17 +19,9 @@ export const useTask = () => {
 };
 
 export const TaskProvider = ({ children }) => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks] = useState([]);
   const [found, setFound] = useState(false);
 
-  const getTasks = async () => {
-    try {
-      const res = await tasksRequest();
-      setTasks(res.data);
-    } catch (error) {
-      setError(error.response.data);
-    }
-  };
   const addTask = async (task) => {
     try {
       const res = await addTaskRequest(task);
@@ -69,7 +60,7 @@ export const TaskProvider = ({ children }) => {
     <TaskContext.Provider
       value={{
         tasks,
-        getTasks,
+
         addTask,
         deleteTask,
         searchTask,

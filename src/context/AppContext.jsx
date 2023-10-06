@@ -109,6 +109,7 @@ export const AppProvider = ({ children }) => {
         signUp,
         signIn,
         error,
+        setError,
         isAuthenticated,
         logout,
       }}

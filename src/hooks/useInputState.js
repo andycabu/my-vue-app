@@ -7,6 +7,14 @@ export function useInputState(initialState) {
     const name = e.target.name;
     const value = e.target.value;
 
+    if (name === "stock") {
+      setInput((prevInput) => ({
+        ...prevInput,
+        [name]: parseInt(value),
+      }));
+      return;
+    }
+
     setInput((prevInput) => ({
       ...prevInput,
       [name]: value,
