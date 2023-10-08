@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import { useNavigate } from "react-router-dom";
 
 function TaskCard({ tasks }) {
@@ -40,5 +42,9 @@ function TaskCard({ tasks }) {
     </>
   );
 }
+
+TaskCard.propTypes = {
+  tasks: PropTypes.object,
+};
 
 export default TaskCard;
