@@ -44,7 +44,7 @@ function TaskCard({ tasks }) {
 }
 
 TaskCard.propTypes = {
-  tasks: PropTypes.object,
+  tasks: PropTypes.array,
 };
 
 export default TaskCard;

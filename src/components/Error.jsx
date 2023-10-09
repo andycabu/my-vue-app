@@ -2,7 +2,6 @@ import { useApp } from "../context/AppContext";
 
 function Errors() {
   const { error } = useApp();
-  console.log(error);
 
   return (
     error &&

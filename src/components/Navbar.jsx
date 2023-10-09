@@ -52,7 +52,7 @@ function Navbar() {
   }
   return (
     <>
-      <nav className=" p-8 flex justify-between items-center bg-[var(--card-background-color)] box-shadow-1">
+      <nav className=" relative p-8 flex justify-between items-center bg-[var(--card-background-color)] box-shadow-1">
         <Link to="/" className="text-3xl font-bold leading-none">
           <svg
             className="h-10"

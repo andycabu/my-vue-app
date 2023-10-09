@@ -20,7 +20,7 @@ export const useApp = () => {
 };
 
 export const AppProvider = ({ children }) => {
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);

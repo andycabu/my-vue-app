@@ -100,12 +100,10 @@ h2 {
   font-weight: 700;
   color: var(--text-color);
 }
-#root {
-  height: 100vh;
-}
 
 .grid {
   display: grid;
+  justify-content: center;
   grid-template-columns: repeat(2, 240px);
   grid-gap: 32px;
   position: relative;

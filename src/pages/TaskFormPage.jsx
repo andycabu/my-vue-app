@@ -1,13 +1,14 @@
 import Button from "../components/Button";
 import Form from "../components/Form";
-import PropTypes from "prop-types";
 import { useNavigate, useLocation } from "react-router-dom";
 import useInputState from "../hooks/useInputState";
 import Arrow from "../components/Arrow";
 import { useTask } from "../context/TaskContext";
+import { useApp } from "../context/AppContext";
 
 function TaskFormPage() {
   const { state } = useLocation();
+  const { error } = useApp();
 
   const navigate = useNavigate();
   const initialState = {
@@ -34,6 +35,7 @@ function TaskFormPage() {
 
     reader.readAsDataURL(file);
   };
+  console.log(error);
 
   const handleDelete = async () => {
     if (window.confirm("¿Estás seguro de borrar esta tarea?")) {
@@ -44,11 +46,14 @@ function TaskFormPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let taskAdded = false;
     if (state?.task?._id) {
-      await updateTask(state.task._id, newTask);
-      navigate("/tasks");
+      taskAdded = await updateTask(state.task._id, newTask);
     } else {
-      addTask(newTask);
+      taskAdded = await addTask(newTask);
+    }
+    if (!error && taskAdded) {
+      navigate("/tasks");
     }
   };
 
@@ -79,7 +84,7 @@ function TaskFormPage() {
   ];
 
   return (
-    <div className="mt-24">
+    <>
       <div className="flex justify-between items-center gap-8 pb-4 ">
         <Arrow
           left={{ link: "/tasks", text: "Atras" }}
@@ -102,11 +107,8 @@ function TaskFormPage() {
           contentForm={contentForm}
         />
       </div>
-    </div>
+    </>
   );
 }
-TaskFormPage.propTypes = {
-  id: PropTypes.string,
-};
 
 export default TaskFormPage;

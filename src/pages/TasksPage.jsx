@@ -6,13 +6,9 @@ import { useTask } from "../context/TaskContext";
 function TasksPage() {
   const { getTasks, tasks } = useTask();
 
-  const onGetTasks = async () => {
-    await getTasks();
-  };
-
   useEffect(() => {
     if (!tasks) {
-      onGetTasks();
+      getTasks();
     }
   }, []);
   return (
