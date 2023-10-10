@@ -58,8 +58,10 @@ export const TaskProvider = ({ children }) => {
         updatedTask.title = newTask.title;
         updatedTask.description = newTask.description;
       }
+      return true;
     } catch (error) {
       setError(error.response.data);
+      return false;
     }
   };
 

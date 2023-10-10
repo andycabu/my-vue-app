@@ -1,4 +1,3 @@
-import Button from "../components/Button";
 import Form from "../components/Form";
 import { useNavigate, useLocation } from "react-router-dom";
 import useInputState from "../hooks/useInputState";
@@ -18,7 +17,7 @@ function TaskFormPage() {
   };
   const [newTask, handleChange, setNewTask] = useInputState(initialState);
 
-  const { addTask, deleteTask, updateTask } = useTask();
+  const { addTask, updateTask } = useTask();
 
   const onInputImageChange = async (event) => {
     const file = event.target.files[0];
@@ -34,14 +33,6 @@ function TaskFormPage() {
     };
 
     reader.readAsDataURL(file);
-  };
-  console.log(error);
-
-  const handleDelete = async () => {
-    if (window.confirm("¿Estás seguro de borrar esta tarea?")) {
-      await deleteTask(state.task._id);
-      navigate("/tasks");
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -90,14 +81,6 @@ function TaskFormPage() {
           left={{ link: "/tasks", text: "Atras" }}
           right={{ link: "/", text: "Inicio" }}
         />
-        {state ? (
-          <Button
-            text=" Borrar"
-            bg="lg:inline-block py-2 px-6 text-sm text-white font-bold rounded-xl transition duration-200 bg-red-500 hover:bg-red-600"
-            type="button"
-            onClick={handleDelete}
-          />
-        ) : null}
       </div>
       <div className="max-w-4xl p-6 mx-auto bg-[var(--card-background-color)] rounded-md shadow-md  ">
         <Form

@@ -1,12 +1,9 @@
 import Table from "../components/Table";
 import { useProduct } from "../context/ProductContext";
 import Arrow from "../components/Arrow";
-import { useHttpRequest } from "../hooks/useHttpRequest";
 
 function ProductsPage() {
   const { searchProduct } = useProduct();
-
-  const { response } = useHttpRequest();
 
   const findProduct = async (product) => {
     if (!product.trim()) {

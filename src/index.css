@@ -607,13 +607,15 @@ body .instagram svg {
       var(--card-hover-box-shadow-2),
     0 0 0 1px var(--card-hover-border-color);
 }
+.ag-courses-item_link:hover .prueba {
+  display: block;
+}
 .ag-courses-item_link {
   display: inline;
   overflow: hidden;
   position: relative;
 }
 .ag-courses-item_link:hover * {
-  text-decoration: none;
   color: #fff;
 }
 .ag-courses-item_link:hover .ag-courses-item_bg {
@@ -644,7 +646,6 @@ body .instagram svg {
   color: var(--text-color);
   z-index: 2;
   position: relative;
-
   max-height: 6rem;
 }
 .ag-courses-item_date-box {
