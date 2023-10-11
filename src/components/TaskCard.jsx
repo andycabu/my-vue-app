@@ -2,10 +2,13 @@ import PropTypes from "prop-types";
 
 import { useNavigate } from "react-router-dom";
 import { useTask } from "../context/TaskContext";
+import { useState } from "react";
 
 function TaskCard({ tasks }) {
   const { deleteTask } = useTask();
   const navigate = useNavigate();
+  const [deleted, setDeleted] = useState(false);
+  console.log(deleted);
 
   const handleDelete = async (id) => {
     if (window.confirm("¿Estás seguro de borrar esta tarea?")) {
@@ -24,7 +27,7 @@ function TaskCard({ tasks }) {
             <div key={task._id} className="ag-courses_item">
               <div className="ag-courses-item_link">
                 <svg
-                  onClick={() => handleDelete(task._id)}
+                  onClick={() => setDeleted(true)}
                   className="hidden h-6 relative z-[3] float-right prueba "
                   clipRule="evenodd"
                   fillRule="evenodd"
