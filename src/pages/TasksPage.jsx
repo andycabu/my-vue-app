@@ -2,11 +2,9 @@ import Arrow from "../components/Arrow";
 import TaskCard from "../components/TaskCard";
 import { useEffect } from "react";
 import { useTask } from "../context/TaskContext";
-import Deleted from "../components/Deleted";
 
 function TasksPage() {
   const { getTasks, tasks } = useTask();
-
   useEffect(() => {
     if (!tasks) {
       getTasks();
@@ -20,7 +18,6 @@ function TasksPage() {
         right={{ link: "/task-add", text: "Crear" }}
       />
       <TaskCard tasks={tasks || []} />
-      <Deleted />
     </div>
   );
 }

@@ -24,6 +24,7 @@ export const AppProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [deleted, setDeleted] = useState(false);
 
   const signUp = async (user) => {
     try {
@@ -112,6 +113,8 @@ export const AppProvider = ({ children }) => {
         setError,
         isAuthenticated,
         logout,
+        deleted,
+        setDeleted,
       }}
     >
       {children}

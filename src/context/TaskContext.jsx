@@ -20,6 +20,7 @@ export const useTask = () => {
 
 export const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState();
+
   const { setError } = useApp();
 
   const getTasks = async () => {

@@ -2,19 +2,25 @@ import PropTypes from "prop-types";
 
 import { useNavigate } from "react-router-dom";
 import { useTask } from "../context/TaskContext";
+import { useApp } from "../context/AppContext";
+import Deleted from "./Deleted";
 import { useState } from "react";
 
 function TaskCard({ tasks }) {
   const { deleteTask } = useTask();
+  const { setDeleted, deleted } = useApp();
+  const [taskToDelete, setTaskToDelete] = useState(null);
+
   const navigate = useNavigate();
-  const [deleted, setDeleted] = useState(false);
-  console.log(deleted);
 
   const handleDelete = async (id) => {
-    if (window.confirm("¿Estás seguro de borrar esta tarea?")) {
-      await deleteTask(id);
-      navigate("/tasks");
-    }
+    await deleteTask(id);
+    setDeleted(false);
+    setTaskToDelete(null);
+  };
+  const handleDeleteClick = (taskId) => {
+    setDeleted(true);
+    setTaskToDelete(taskId); // Establece el id de la tarea a eliminar.
   };
 
   return (
@@ -27,7 +33,7 @@ function TaskCard({ tasks }) {
             <div key={task._id} className="ag-courses_item">
               <div className="ag-courses-item_link">
                 <svg
-                  onClick={() => setDeleted(true)}
+                  onClick={() => handleDeleteClick(task._id)}
                   className="hidden h-6 relative z-[3] float-right prueba "
                   clipRule="evenodd"
                   fillRule="evenodd"
@@ -69,6 +75,7 @@ function TaskCard({ tasks }) {
           ))}
         </div>
       )}
+      {deleted && <Deleted id={taskToDelete} handleDelete={handleDelete} />}
     </>
   );
 }
