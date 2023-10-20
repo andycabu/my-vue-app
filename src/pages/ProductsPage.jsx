@@ -1,17 +1,24 @@
 import Table from "../components/Table";
 import { useProduct } from "../context/ProductContext";
 import Arrow from "../components/Arrow";
+import { useEffect } from "react";
 
 function ProductsPage() {
-  const { searchProduct } = useProduct();
+  const { products, getProducts, setProducts } = useProduct();
 
-  const findProduct = async (product) => {
-    if (!product.trim()) {
-      searchProduct();
+  function findProduct(value) {
+    let prueba = [...products];
+
+    if (!value.trim()) {
+      console.log(prueba);
+      setProducts(prueba);
       return;
     }
-    searchProduct(product);
-  };
+    let foundProduct = products.find((product) => console.log(product));
+    if (foundProduct) {
+      setProducts(foundProduct);
+    }
+  }
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -48,6 +55,11 @@ function ProductsPage() {
       th: "Eliminar",
     },
   ];
+  useEffect(() => {
+    if (!products) {
+      getProducts();
+    }
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center bg-[var(--card-background-color)] ">
@@ -68,7 +80,7 @@ function ProductsPage() {
       </div>
 
       <div className="text-center bg-[var(--card-background-color)] p-6">
-        <Table contentTable={table} products={response || []} />
+        <Table contentTable={table} products={products || []} />
       </div>
     </div>
   );

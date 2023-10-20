@@ -2,11 +2,11 @@ import Button from "./Button";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useProduct } from "../context/ProductContext";
 
-function Table({ contentTable }) {
-  const { getProducts, products, deleteProduct } = useProduct();
+function Table({ contentTable, products }) {
+  const { deleteProduct } = useProduct();
 
   const handleDelete = async (id) => {
     deleteProduct(id);
@@ -21,9 +21,6 @@ function Table({ contentTable }) {
           stock: newStockValue,
         }
       );
-      if (res.status === 200) {
-        getProducts();
-      }
     } catch (error) {
       console.log(error);
     }
@@ -39,11 +36,7 @@ function Table({ contentTable }) {
       setEditableStock(null);
     }
   };
-  console.log(products);
 
-  useEffect(() => {
-    getProducts();
-  }, []);
   return (
     <>
       {!products || products.length === 0 ? (
@@ -108,6 +101,7 @@ function Table({ contentTable }) {
 
 Table.propTypes = {
   contentTable: PropTypes.array.isRequired,
+  products: PropTypes.array,
 };
 
 export default Table;

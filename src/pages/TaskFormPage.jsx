@@ -38,6 +38,7 @@ function TaskFormPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let taskAdded = false;
+
     if (state?.task?._id) {
       taskAdded = await updateTask(state.task._id, newTask);
     } else {

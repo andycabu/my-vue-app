@@ -23,9 +23,8 @@ export const useProduct = () => {
 };
 
 export const ProductProvider = ({ children }) => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState();
   const { setError } = useApp();
-  const [status, setStatus] = useState(null);
 
   const getProducts = async () => {
     try {
@@ -37,33 +36,23 @@ export const ProductProvider = ({ children }) => {
   };
   const addProduct = async (product) => {
     try {
-      setStatus(null);
       const res = await addProductRequest(product);
-      setStatus(res.status);
+      setProducts([...products, res.data]);
+      return true;
     } catch (error) {
-      console.log(error.response.data);
       setError(error.response.data);
     }
   };
   const deleteProduct = async (id) => {
     try {
-      const res = await deleteProductRequest(id);
-      setStatus(res.status);
-      if (status === 200) setStatus(null);
+      await deleteProductRequest(id);
+      const newProducts = products.filter((product) => product._id !== id);
+      setProducts(newProducts);
     } catch (error) {
       setError(error.response.data);
     }
   };
-  const searchProduct = async (nombre) => {
-    try {
-      const res = await searchProductRequest(nombre);
-      setProducts(res.data);
-      console.log(res);
-    } catch (error) {
-      console(error);
-      setError(error.response.data);
-    }
-  };
+
   const updateProduct = async (id, newProduct) => {
     try {
       const res = await updateProductRequest(id, newProduct);
@@ -80,12 +69,11 @@ export const ProductProvider = ({ children }) => {
     <ProductContext.Provider
       value={{
         products,
+        setProducts,
         getProducts,
         addProduct,
         deleteProduct,
-        searchProduct,
         updateProduct,
-        status,
       }}
     >
       {children}

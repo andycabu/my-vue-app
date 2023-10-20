@@ -5,10 +5,9 @@ import useInputState from "../hooks/useInputState";
 import Form from "../components/Form";
 import Arrow from "../components/Arrow";
 import { useApp } from "../context/AppContext";
-import { useEffect } from "react";
 
 function ProductFormPage() {
-  const { addProduct, status } = useProduct();
+  const { addProduct } = useProduct();
 
   const { error } = useApp();
   const initialState = {
@@ -22,23 +21,15 @@ function ProductFormPage() {
 
   const [newProduct, handleChange] = useInputState(initialState);
 
-  const handleSubmit = useSubmit(
-    async () => {
-      await addProduct(newProduct);
-    }
-    // async () => {
-    //   await onUpdateProduct();
-    // }
-  );
-
-  useEffect(() => {
-    if (status === 200) navigate("/products");
-  }, [status]);
-
-  const handleFormSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleSubmit();
+    let productAdded = false;
+    productAdded = await addProduct(newProduct);
+    if (!error && productAdded) {
+      navigate("/products");
+    }
   };
+
   const contentForm = [
     {
       name: "nombre",
@@ -83,7 +74,7 @@ function ProductFormPage() {
           title="Crear Producto"
           style="grid grid-cols-2 gap-4 text-gray-700"
           contentForm={contentForm}
-          onSubmit={handleFormSubmit}
+          onSubmit={handleSubmit}
         />
       </div>
     </div>
