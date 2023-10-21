@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
-import useSubmit from "../hooks/useSubmit";
 import useInputState from "../hooks/useInputState";
 import Form from "../components/Form";
 import Arrow from "../components/Arrow";

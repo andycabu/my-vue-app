@@ -5,7 +5,6 @@ import {
   productsRequest,
   addProductRequest,
   deleteProductRequest,
-  searchProductRequest,
   updateProductRequest,
 } from "../api/product";
 import { useApp } from "./AppContext";
@@ -53,9 +52,10 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  const updateProduct = async (id, newProduct) => {
+  const updateProduct = async (id, newStock) => {
+    console.log(newStock);
     try {
-      const res = await updateProductRequest(id, newProduct);
+      const res = await updateProductRequest(id, newStock);
     } catch (error) {
       setError(error.response.data);
     }

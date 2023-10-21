@@ -1,23 +1,24 @@
 import Table from "../components/Table";
 import { useProduct } from "../context/ProductContext";
 import Arrow from "../components/Arrow";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function ProductsPage() {
-  const { products, getProducts, setProducts } = useProduct();
+  const { products, getProducts } = useProduct();
+
+  const [items, setItems] = useState([]);
 
   function findProduct(value) {
-    let prueba = [...products];
-
     if (!value.trim()) {
-      console.log(prueba);
-      setProducts(prueba);
+      setItems(products);
       return;
     }
-    let foundProduct = products.find((product) => console.log(product));
-    if (foundProduct) {
-      setProducts(foundProduct);
-    }
+
+    const foundProduct = products.filter((product) =>
+      product.nombre.toLowerCase().includes(value)
+    );
+
+    setItems(foundProduct);
   }
 
   const handleChange = (e) => {
@@ -61,6 +62,10 @@ function ProductsPage() {
     }
   }, []);
 
+  useEffect(() => {
+    setItems(products);
+  }, [products]);
+
   return (
     <div className="flex flex-col items-center justify-center bg-[var(--card-background-color)] ">
       <Arrow
@@ -73,14 +78,14 @@ function ProductsPage() {
         <input
           type="text"
           name="search"
-          className="block w-full px-4 py-2 mt-2  bg-[var(--background-color)] border border-[var(--background-color)] rounded-md   focus:border-[var(--text-color)]  "
+          className="block w-full px-4 py-2 mt-2 text-[var(--text-color)]  bg-[var(--background-color)] border border-[var(--background-color)] rounded-md   focus:border-[var(--text-color)]  "
           placeholder="Buscar por nombre"
           onChange={handleChange}
         />
       </div>
 
       <div className="text-center bg-[var(--card-background-color)] p-6">
-        <Table contentTable={table} products={products || []} />
+        <Table contentTable={table} products={items} />
       </div>
     </div>
   );

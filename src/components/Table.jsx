@@ -1,40 +1,18 @@
 import Button from "./Button";
-import axios from "axios";
 import PropTypes from "prop-types";
 
 import { useState } from "react";
 import { useProduct } from "../context/ProductContext";
 
 function Table({ contentTable, products }) {
-  const { deleteProduct } = useProduct();
+  const { deleteProduct, updateProduct } = useProduct();
+  const [value, setValue] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+
+  console.log(value);
 
   const handleDelete = async (id) => {
     deleteProduct(id);
-  };
-
-  const [editableStock, setEditableStock] = useState(null);
-  const handleEditableChange = async (id, newStockValue) => {
-    try {
-      const res = await axios.put(
-        `http://localhost:4000/api/products/update/${id}`,
-        {
-          stock: newStockValue,
-        }
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleStockDoubleClick = (id, stock) => {
-    setEditableStock({ id, stock });
-  };
-
-  const handleStockBlur = () => {
-    if (editableStock) {
-      handleEditableChange(editableStock.id, editableStock.stock);
-      setEditableStock(null);
-    }
   };
 
   return (
@@ -70,15 +48,13 @@ function Table({ contentTable, products }) {
                 <td className="p-3">{product.categoria}</td>
                 <td
                   id={product._id}
-                  onDoubleClick={() =>
-                    handleStockDoubleClick(product._id, product.stock)
-                  }
-                  onBlur={() => {
-                    handleStockBlur(product._id);
+                  onClick={() => {
+                    setIsEditing(true);
                   }}
-                  contentEditable={
-                    editableStock && editableStock.id === product._id
-                  }
+                  value={value}
+                  contentEditable={isEditing === true}
+                  onBlur={() => setIsEditing(false)}
+                  onChange={(e) => setValue(e.target.value)}
                   className="p-3"
                 >
                   {product.stock}
